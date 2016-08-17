@@ -43,15 +43,13 @@ public class TextMemifier extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memifier");
 
-        txt_input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_inputActionPerformed(evt);
-            }
-        });
+        txt_input.setToolTipText("Enter the text you'd like to memify here");
 
         cmb_options.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Row", "Row & Col", "Square", "Reverse Square" }));
+        cmb_options.setToolTipText("Select the meme text type");
 
         btn_okay.setText("Memify!");
+        btn_okay.setToolTipText("Generate your meme text");
         btn_okay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_okayActionPerformed(evt);
@@ -61,9 +59,11 @@ public class TextMemifier extends javax.swing.JFrame {
         txt_output.setEditable(false);
         txt_output.setColumns(20);
         txt_output.setRows(5);
+        txt_output.setToolTipText("You cannot type here, only copy the generated text.");
         scrl_output.setViewportView(txt_output);
 
         btn_copy.setText("Copy");
+        btn_copy.setToolTipText("Copy the generated text to your clipboard");
         btn_copy.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_copyMouseClicked(evt);
@@ -71,6 +71,7 @@ public class TextMemifier extends javax.swing.JFrame {
         });
 
         chk_reddit.setText("For Reddit");
+        chk_reddit.setToolTipText("If Row is selected, has no effect");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,17 +111,13 @@ public class TextMemifier extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_inputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_inputActionPerformed
-
     private void btn_okayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_okayActionPerformed
         switch (cmb_options.getSelectedIndex()) {
             case 0:
                 txt_output.setText(generateMemeRow(txt_input.getText()));
                 break;
             case 1:
-                txt_output.setText(generateMemeDouble(txt_input.getText()));
+                txt_output.setText(generateMemeRowCol(txt_input.getText()));
                 break;
             case 2:
                 txt_output.setText(generateMemeSquare(txt_input.getText()));
@@ -149,13 +146,13 @@ public class TextMemifier extends javax.swing.JFrame {
         return memified.substring(1, memified.length());
     }
 
-    private String generateMemeDouble(String txt) {
+    private String generateMemeRowCol(String txt) {
         String memified = generateMemeRow(txt);
-        String[] ch = memified.split("\\s");
+        txt = memified.replace("\\s", "");
         String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
-        for (int i = 1; i < ch.length; i++) {
-            memified += spacing + ch[i];
+        for (int i = 1; i < txt.length(); i++) {
+            memified += spacing + txt.charAt(i);
         }
         return memified;
     }
