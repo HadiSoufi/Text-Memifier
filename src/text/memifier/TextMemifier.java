@@ -152,9 +152,10 @@ public class TextMemifier extends javax.swing.JFrame {
     private String generateMemeDouble(String txt) {
         String memified = generateMemeRow(txt);
         String[] ch = memified.split("\\s");
+        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
         for (int i = 1; i < ch.length; i++) {
-            memified += "\n" + ch[i];
+            memified += spacing + ch[i];
         }
         return memified;
     }
