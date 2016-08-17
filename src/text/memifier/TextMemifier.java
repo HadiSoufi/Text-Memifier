@@ -161,24 +161,34 @@ public class TextMemifier extends javax.swing.JFrame {
 
     private String generateMemeSquareReverse(String txt) {
         String memified = generateMemeRow(txt);
-        String tempString = memified.replaceAll("\\s", "");
-        boolean check = chk_reddit.isSelected();
+        String currentRow = memified.replaceAll("\\s", "");
+        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
         for (int i = 0; i < txt.length() - 1; i++) {
-            tempString = tempString.charAt(tempString.length() - 1) + tempString.substring(0, tempString.length() - 1);
-            memified += ((check) ? "\n" : "") + "\n" + generateMemeRow(tempString);
+            currentRow = 
+                    //The last character of currentRow concatenated with
+                    currentRow.charAt(currentRow.length() - 1) + 
+                    //The other letters in currentRow
+                    currentRow.substring(0, currentRow.length() - 1);
+            
+            memified += spacing + generateMemeRow(currentRow);
         }
         return memified;
     }
 
     private String generateMemeSquare(String txt) {
         String memified = generateMemeRow(txt);
-        String tempString = memified.replaceAll("\\s", "");
-        boolean check = chk_reddit.isSelected();
+        String currentRow = memified.replaceAll("\\s", "");
+        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
         for (int i = 0; i < txt.length() - 1; i++) {
-            tempString = tempString.substring(1, tempString.length()) + tempString.charAt(0);
-            memified += ((check) ? "\n" : "") + "\n" + generateMemeRow(tempString);
+            currentRow = 
+                    //The second and succeeding letters of currentRow concatenated with
+                    currentRow.substring(1, currentRow.length())
+                    //The first character of currentRow
+                    + currentRow.charAt(0);
+            
+            memified += spacing + generateMemeRow(currentRow);
         }
         return memified;
     }
