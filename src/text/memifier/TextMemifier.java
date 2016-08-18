@@ -147,19 +147,36 @@ public class TextMemifier extends javax.swing.JFrame {
         clpbrd.setContents(stringSelection, null);
     }//GEN-LAST:event_btn_copyMouseClicked
 
+    /**
+     * Formats a String
+     *  eX   ampLE
+     * becomes
+     *  E X A M P L E
+     */
     private String generateMemeRow(String txt) {
-        String memified = "";
-        txt = txt.toUpperCase().replaceAll("\\s", "");
+        //Step 1: Make all characters uppercase
+        //Step 2: Remove all spaces
+        //Step 3: Put a space after every character
+        String memified = txt.toUpperCase().replace(" ", "").replaceAll("\\B", " ");
 
-        for (char c : txt.toCharArray()) {
-            memified += " " + c;
-        }
-        return memified.substring(1, memified.length());
+        return memified;
     }
 
+    /**
+     * Formats a String
+     *  eX   ampLE
+     * becomes
+     *  E X A M P L E
+     *  X
+     *  A
+     *  M
+     *  P
+     *  L
+     *  E
+     */
     private String generateMemeRowCol(String txt) {
         String memified = generateMemeRow(txt);
-        txt = memified.replace("\\s", "");
+        txt = memified.replace(" ", "");
         String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
         for (int i = 1; i < txt.length(); i++) {
@@ -167,7 +184,19 @@ public class TextMemifier extends javax.swing.JFrame {
         }
         return memified;
     }
-
+    
+    /**
+     * Formats a String
+     *  eX   ampLE
+     * becomes
+     *  E X A M P L E
+     *  A M P L E E X 
+     *  M P L E E X A 
+     *  P L E E X A M 
+     *  L E E X A M P 
+     *  E E X A M P L 
+     *  E X A M P L E 
+     */
     private String generateMemeSquareReverse(String txt) {
         String memified = generateMemeRow(txt);
         String currentRow = memified.replaceAll("\\s", "");
@@ -185,6 +214,18 @@ public class TextMemifier extends javax.swing.JFrame {
         return memified;
     }
 
+    /**
+     * Formats a String
+     *  eX   ampLE
+     * becomes
+     *  E X A M P L E
+     *  X A M P L E E
+     *  A M P L E E X
+     *  M P L E E X A
+     *  P L E E X A M
+     *  L E E X A M P
+     *  E E X A M P L
+     */
     private String generateMemeSquare(String txt) {
         String memified = generateMemeRow(txt);
         String currentRow = memified.replaceAll("\\s", "");
