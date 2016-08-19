@@ -181,7 +181,7 @@ public class TextMemifier extends javax.swing.JFrame {
     private String generateMemeRowCol(String txt) {
         String memified = generateMemeRow(txt);
         txt = memified.replace(" ", "");
-        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
+        String spacing = getSpacing();
 
         for (int i = 1; i < txt.length(); i++) {
             memified += spacing + txt.charAt(i);
@@ -216,7 +216,7 @@ public class TextMemifier extends javax.swing.JFrame {
     private String generateMemeSquare(String txt, boolean reversed) {
         String memified = generateMemeRow(txt);
         String currentRow = memified.replaceAll(" ", "");
-        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
+        String spacing = getSpacing();
 
         if(reversed) {
             for (int i = 0; i < txt.length() - 1; i++) {
@@ -232,6 +232,13 @@ public class TextMemifier extends javax.swing.JFrame {
             }
         }
         return memified;
+    }
+    
+    /**
+     * @return A single or double newline depending on the "Reddit" checkbox 
+     */
+    private String getSpacing() {
+        return (chk_reddit.isSelected() ? "\n" : "") + "\n";
     }
 
     /**
