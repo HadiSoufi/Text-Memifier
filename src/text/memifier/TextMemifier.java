@@ -217,23 +217,26 @@ public class TextMemifier extends javax.swing.JFrame {
         String currentRow = memified.replaceAll(" ", "");
         String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
-        for (int i = 0; i < txt.length() - 1; i++) {
-            
-            if(reversed) {
+        if(reversed) {
+            for (int i = 0; i < txt.length() - 1; i++) {
                 currentRow = 
                     //The last character of currentRow concatenated with
                     currentRow.charAt(currentRow.length() - 1) + 
                     //the other letters in currentRow
                     currentRow.substring(0, currentRow.length() - 1);
-            } else {
+
+                memified += spacing + generateMemeRow(currentRow);
+            }
+        } else {
+            for (int i = 0; i < txt.length() - 1; i++) {
                 currentRow = 
                     //The second and succeeding letters of currentRow concatenated with
                     currentRow.substring(1)
                     //the first character of currentRow
                     + currentRow.charAt(0);
+
+                memified += spacing + generateMemeRow(currentRow);
             }
-            
-            memified += spacing + generateMemeRow(currentRow);
         }
         return memified;
     }
