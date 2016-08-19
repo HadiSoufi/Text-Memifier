@@ -81,7 +81,7 @@ public class TextMemifier extends javax.swing.JFrame {
         });
 
         chk_reddit.setText("For Reddit");
-        chk_reddit.setToolTipText("If Row is selected, has no effect");
+        chk_reddit.setToolTipText("Double spaces the text");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
