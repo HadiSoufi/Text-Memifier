@@ -9,3 +9,5 @@ Becomes
     T H I S I S A N E X A M P L E
   
 There are multiple formatting options, such as default row, row & column, full square, and reversed full square.
+
+Built using the Netbeans Swing editor
