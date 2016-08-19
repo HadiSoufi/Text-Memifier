@@ -17,7 +17,6 @@
 package text.memifier;
 
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import javax.swing.JOptionPane;
 
@@ -124,17 +123,21 @@ public class TextMemifier extends javax.swing.JFrame {
 
     private void btn_okayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_okayActionPerformed
         switch (cmb_options.getSelectedIndex()) {
+            //"Row"
             case 0:
                 txt_output.setText(generateMemeRow(txt_input.getText()));
                 break;
+            //"Row&Col"
             case 1:
                 txt_output.setText(generateMemeRowCol(txt_input.getText()));
                 break;
+            //"Square"
             case 2:
-                txt_output.setText(generateMemeSquare(txt_input.getText()));
+                txt_output.setText(generateMemeSquare(txt_input.getText(), false));
                 break;
+            //"Reverse Square"
             case 3:
-                txt_output.setText(generateMemeSquareReverse(txt_input.getText()));
+                txt_output.setText(generateMemeSquare(txt_input.getText(), true));
                 break;
             default:
                 JOptionPane.showConfirmDialog(null, "Not a valid style", "Error", JOptionPane.ERROR);
@@ -142,9 +145,11 @@ public class TextMemifier extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_okayActionPerformed
 
     private void btn_copyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_copyMouseClicked
+        //Select generated text
         StringSelection stringSelection = new StringSelection(txt_output.getText());
-        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clpbrd.setContents(stringSelection, null);
+        
+        //Copy it to clipboard
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
     }//GEN-LAST:event_btn_copyMouseClicked
 
     /**
@@ -157,9 +162,7 @@ public class TextMemifier extends javax.swing.JFrame {
         //Step 1: Make all characters uppercase
         //Step 2: Remove all spaces
         //Step 3: Put a space after every character
-        String memified = txt.toUpperCase().replace(" ", "").replaceAll("\\B", " ");
-
-        return memified;
+        return txt.toUpperCase().replace(" ", "").replaceAll("\\B", " ");
     }
 
     /**
@@ -184,35 +187,6 @@ public class TextMemifier extends javax.swing.JFrame {
         }
         return memified;
     }
-    
-    /**
-     * Formats a String
-     *  eX   ampLE
-     * becomes
-     *  E X A M P L E
-     *  A M P L E E X 
-     *  M P L E E X A 
-     *  P L E E X A M 
-     *  L E E X A M P 
-     *  E E X A M P L 
-     *  E X A M P L E 
-     */
-    private String generateMemeSquareReverse(String txt) {
-        String memified = generateMemeRow(txt);
-        String currentRow = memified.replaceAll("\\s", "");
-        String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
-
-        for (int i = 0; i < txt.length() - 1; i++) {
-            currentRow = 
-                    //The last character of currentRow concatenated with
-                    currentRow.charAt(currentRow.length() - 1) + 
-                    //The other letters in currentRow
-                    currentRow.substring(0, currentRow.length() - 1);
-            
-            memified += spacing + generateMemeRow(currentRow);
-        }
-        return memified;
-    }
 
     /**
      * Formats a String
@@ -225,18 +199,39 @@ public class TextMemifier extends javax.swing.JFrame {
      *  P L E E X A M
      *  L E E X A M P
      *  E E X A M P L
+     * 
+     * OR
+     * 
+     *  E X A M P L E
+     *  A M P L E E X 
+     *  M P L E E X A 
+     *  P L E E X A M 
+     *  L E E X A M P 
+     *  E E X A M P L 
+     *  E X A M P L E 
+     * 
+     * @param reversed If true, second formatting. If false, first formatting
      */
-    private String generateMemeSquare(String txt) {
+    private String generateMemeSquare(String txt, boolean reversed) {
         String memified = generateMemeRow(txt);
-        String currentRow = memified.replaceAll("\\s", "");
+        String currentRow = memified.replaceAll(" ", "");
         String spacing = (chk_reddit.isSelected() ? "\n" : "") + "\n";
 
         for (int i = 0; i < txt.length() - 1; i++) {
-            currentRow = 
+            
+            if(reversed) {
+                currentRow = 
+                    //The last character of currentRow concatenated with
+                    currentRow.charAt(currentRow.length() - 1) + 
+                    //the other letters in currentRow
+                    currentRow.substring(0, currentRow.length() - 1);
+            } else {
+                currentRow = 
                     //The second and succeeding letters of currentRow concatenated with
-                    currentRow.substring(1, currentRow.length())
-                    //The first character of currentRow
+                    currentRow.substring(1)
+                    //the first character of currentRow
                     + currentRow.charAt(0);
+            }
             
             memified += spacing + generateMemeRow(currentRow);
         }
