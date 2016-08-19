@@ -139,6 +139,7 @@ public class TextMemifier extends javax.swing.JFrame {
             case 3:
                 txt_output.setText(generateMemeSquare(txt_input.getText(), true));
                 break;
+            //Something went horribly wrong
             default:
                 JOptionPane.showConfirmDialog(null, "Not a valid style", "Error", JOptionPane.ERROR);
         }
@@ -219,23 +220,15 @@ public class TextMemifier extends javax.swing.JFrame {
 
         if(reversed) {
             for (int i = 0; i < txt.length() - 1; i++) {
-                currentRow = 
-                    //The last character of currentRow concatenated with
-                    currentRow.charAt(currentRow.length() - 1) + 
-                    //the other letters in currentRow
-                    currentRow.substring(0, currentRow.length() - 1);
-
-                memified += spacing + generateMemeRow(currentRow);
+                //Move the last letter to the beginning
+                currentRow = currentRow.charAt(currentRow.length() - 1) + currentRow.substring(0, currentRow.length() - 1);
+                memified += spacing + currentRow.replaceAll("\\B", " ");
             }
         } else {
             for (int i = 0; i < txt.length() - 1; i++) {
-                currentRow = 
-                    //The second and succeeding letters of currentRow concatenated with
-                    currentRow.substring(1)
-                    //the first character of currentRow
-                    + currentRow.charAt(0);
-
-                memified += spacing + generateMemeRow(currentRow);
+                //Move the first letter to the end
+                currentRow = currentRow.substring(1) + currentRow.charAt(0);
+                memified += spacing + currentRow.replaceAll("\\B", " ");
             }
         }
         return memified;
